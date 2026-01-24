@@ -1,6 +1,6 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 
 const Center = styled.div`
   display: flex;
@@ -10,45 +10,160 @@ const Center = styled.div`
   background: #f5f5f5;
 `;
 
-const LoadingStateButton: React.FC = () => {
-  const [isLoading, setIsLoading] = React.useState(false);
-  const scheduleRef = React.useRef<HTMLSpanElement>(null);
-  const processingRef = React.useRef<HTMLSpanElement>(null);
+const LoadingStateButton = () => {
+  const [state, setState] = React.useState("idle");
+  const [shouldFail, setShouldFail] = React.useState(true);
+  const scheduleRef = React.useRef(null);
+  const meetingRef = React.useRef(null);
+  const processingRef = React.useRef(null);
+  const resultRef = React.useRef(null);
   const [dimensions, setDimensions] = React.useState({
     scheduleWidth: 0,
+    meetingWidth: 0,
     processingWidth: 0,
+    resultWidth: 0,
   });
 
   React.useEffect(() => {
-    if (scheduleRef.current && processingRef.current) {
+    if (
+      scheduleRef.current &&
+      meetingRef.current &&
+      processingRef.current &&
+      resultRef.current
+    ) {
       setDimensions({
         scheduleWidth: scheduleRef.current.offsetWidth,
+        meetingWidth: meetingRef.current.offsetWidth,
         processingWidth: processingRef.current.offsetWidth,
+        resultWidth: resultRef.current.offsetWidth,
       });
     }
-  }, []);
+  }, [state]);
+
+  const handleClick = () => {
+    if (state === "idle") {
+      setState("loading");
+      setTimeout(() => {
+        if (shouldFail) {
+          setState("error");
+          setShouldFail(false);
+        } else {
+          setState("success");
+          setShouldFail(true);
+        }
+      }, 2000);
+    } else if (state === "error" || state === "success") {
+      setState("idle");
+    }
+  };
 
   const iconWidth = 20;
   const gap = 8;
   const padding = 24;
+  const wordGap = 6;
 
   const scheduleButtonWidth =
-    iconWidth + gap + dimensions.scheduleWidth + padding * 2 + 60;
+    iconWidth +
+    gap +
+    dimensions.scheduleWidth +
+    wordGap +
+    dimensions.meetingWidth +
+    padding * 2;
   const processingButtonWidth =
-    iconWidth + gap + dimensions.processingWidth + padding * 2 + 60;
+    iconWidth +
+    gap +
+    dimensions.processingWidth +
+    wordGap +
+    dimensions.meetingWidth +
+    padding * 2;
+  const resultButtonWidth =
+    iconWidth +
+    gap +
+    dimensions.processingWidth +
+    wordGap +
+    dimensions.resultWidth +
+    padding * 2;
 
-  const trackOffset = -(dimensions.scheduleWidth + 2);
+  const trackOffsetLoading = -(dimensions.scheduleWidth + wordGap);
+  const trackOffsetResult = -(
+    dimensions.scheduleWidth +
+    wordGap +
+    dimensions.meetingWidth +
+    wordGap
+  );
+
+  const getButtonWidth = () => {
+    if (state === "success" || state === "error") return resultButtonWidth;
+    if (state === "loading") return processingButtonWidth;
+    return scheduleButtonWidth;
+  };
+
+  const getTrackOffset = () => {
+    if (state === "success" || state === "error") return trackOffsetResult;
+    if (state === "loading") return trackOffsetLoading;
+    return 0;
+  };
+
+  const getBackground = () => {
+    if (state === "error") return "var(--error, #dc2626)";
+    if (state === "success") return "var(--success, #16a34a)";
+    return "var(--primary, #000)";
+  };
+
+  const getIconPaths = () => {
+    if (state === "idle") {
+      return {
+        path1: "M12 5 L12 19",
+        path2: "M5 12 L19 12",
+        path3: "M12 12 L12 12",
+        opacity1: 1,
+        opacity2: 1,
+        opacity3: 0,
+      };
+    } else if (state === "loading") {
+      return {
+        path1: "M12 3 A9 9 0 0 1 21 12",
+        path2: "M12 12 L12 12",
+        path3: "M12 12 L12 12",
+        opacity1: 1,
+        opacity2: 0,
+        opacity3: 0,
+      };
+    } else if (state === "error") {
+      return {
+        path1: "M12 2 A10 10 0 1 0 12 22 A10 10 0 1 0 12 2",
+        path2: "M12 7 L12 13",
+        path3: "M12 16 L12 17",
+        opacity1: 1,
+        opacity2: 1,
+        opacity3: 1,
+      };
+    } else {
+      return {
+        path1: "M12 12 L12 12",
+        path2: "M7 12 L10.5 16",
+        path3: "M10.5 16 L17 8",
+        opacity1: 0,
+        opacity2: 1,
+        opacity3: 1,
+      };
+    }
+  };
+
+  const iconPaths = getIconPaths();
 
   return (
     <Center>
       <Button
         layout
-        onClick={() => setIsLoading(!isLoading)}
+        onClick={handleClick}
         animate={{
-          width: isLoading ? processingButtonWidth : scheduleButtonWidth,
+          width: getButtonWidth(),
+          background: getBackground(),
         }}
         transition={{
           layout: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+          background: { duration: 0.3 },
         }}
       >
         <motion.div
@@ -62,26 +177,28 @@ const LoadingStateButton: React.FC = () => {
               viewBox="0 0 24 24"
               fill="none"
               animate={{
-                rotate: isLoading ? 360 : 0,
+                rotate: state === "loading" ? 360 : 0,
               }}
               transition={{
-                rotate: isLoading
-                  ? { duration: 1, repeat: Infinity, ease: "linear" }
-                  : { duration: 0 },
+                rotate:
+                  state === "loading"
+                    ? { duration: 1, repeat: Infinity, ease: "linear" }
+                    : { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
               }}
             >
               <motion.path
-                d={isLoading ? "M12 3 A9 9 0 0 1 21 12" : "M12 5 L12 19"}
-                stroke="var(--offPrimary, #ccc)"
-                strokeWidth="2"
+                d={iconPaths.path1}
+                stroke="#fff"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 fill="none"
-                initial={false}
                 animate={{
-                  d: isLoading ? "M12 3 A9 9 0 0 1 21 12" : "M12 5 L12 19",
+                  d: iconPaths.path1,
+                  opacity: iconPaths.opacity1,
                 }}
                 transition={{
-                  d: { duration: 0.4, ease: [0.16, 1, 0.3, 1] },
+                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
                 }}
                 style={{
                   transformOrigin: "center",
@@ -89,41 +206,75 @@ const LoadingStateButton: React.FC = () => {
                 }}
               />
               <motion.path
-                d="M5 12 L19 12"
-                stroke="var(--offPrimary, #ccc)"
-                strokeWidth="2"
+                d={iconPaths.path2}
+                stroke="#fff"
+                strokeWidth="2.5"
                 strokeLinecap="round"
-                initial={false}
+                fill="none"
                 animate={{
-                  opacity: isLoading ? 0 : 1,
+                  d: iconPaths.path2,
+                  opacity: iconPaths.opacity2,
                 }}
                 transition={{
-                  duration: 0.3,
-                  ease: [0.16, 1, 0.3, 1],
+                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
+                }}
+              />
+              <motion.path
+                d={iconPaths.path3}
+                stroke="#fff"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+                animate={{
+                  d: iconPaths.path3,
+                  opacity: iconPaths.opacity3,
+                }}
+                transition={{
+                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
                 }}
               />
             </motion.svg>
           </IconContainer>
           <Canvas>
             <Track
-              animate={{ x: isLoading ? trackOffset : 0 }}
+              animate={{
+                x: getTrackOffset(),
+              }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             >
               <Word
                 ref={scheduleRef}
-                animate={{ opacity: isLoading ? 0 : 1 }}
+                animate={{ opacity: state === "idle" ? 1 : 0 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               >
                 Schedule
               </Word>
-              <Word>Meeting</Word>
+              <Word
+                ref={meetingRef}
+                animate={{
+                  opacity: state === "idle" || state === "loading" ? 1 : 0,
+                }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                Meeting
+              </Word>
               <Word
                 ref={processingRef}
-                className="processing-word"
-                animate={{ opacity: isLoading ? 1 : 0 }}
+                animate={{ opacity: state !== "idle" ? 1 : 0 }}
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               >
                 Processing
+              </Word>
+              <Word
+                ref={resultRef}
+                animate={{
+                  opacity: state === "error" || state === "success" ? 1 : 0,
+                }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {state === "success" ? "Successful" : "Failed"}
               </Word>
             </Track>
           </Canvas>
@@ -172,11 +323,8 @@ const Canvas = styled(motion.div)`
 const Track = styled(motion.div)`
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 6px;
   white-space: nowrap;
-  .processing-word {
-    margin-left: 4px;
-  }
 `;
 
 const Word = styled(motion.span)`
