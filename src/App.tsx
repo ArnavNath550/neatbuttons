@@ -1,12 +1,9 @@
 import { useState } from "react";
 import "./App.css";
+import LoadingStateButton from "./components/LoadingStateButton";
 
 function App() {
-  return (
-    <>
-      <span>Neat Buttons</span>
-    </>
-  );
+  return <LoadingStateButton />;
 }
 
 export default App;
