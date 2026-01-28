@@ -45,6 +45,7 @@ function App() {
         animate="visible"
       >
         <StyledHeaderContent>
+          <StyledLogo src="/public/brandmark.svg" variants={itemVariants} />
           <StyledHeader>
             <StyledHeaderText variants={itemVariants}>
               Neat Buttons
@@ -132,4 +133,10 @@ const StyledBodyPreviewItem = styled(motion.div)`
     width: 100%;
     height: 350px;
   }
+`;
+
+const StyledLogo = styled(motion.img)`
+  width: 30px;
+  height: 30px;
+  margin-bottom: 20px;
 `;
