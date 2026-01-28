@@ -49,7 +49,7 @@ const PinCodeButton: React.FC = () => {
       animate={{ width: fluidWidth, height: fluidHeight }}
       transition={springConfig}
     >
-      <AnimatePresence initial={false} mode="wait">
+      <AnimatePresence initial={false} mode="sync">
         {!isPinPad ? (
           <Content
             key="initial-content"
@@ -158,10 +158,10 @@ const LoadingContent: React.FC<{ springConfig: Transition }> = ({
 }) => {
   return (
     <Content
-      initial={{ scale: 0.9, y: -2, opacity: 0 }}
-      animate={{ scale: 1, y: 0, opacity: 1 }}
-      exit={{ opacity: 1, scale: 1 }}
-      transition={{ ...springConfig, delay: 0.05 } as Transition}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.15 }}
     >
       <SpinnerSvg
         initial={{ rotate: 0 }}
