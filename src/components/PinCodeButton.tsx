@@ -193,6 +193,7 @@ const LoadingContent: React.FC<{ springConfig: Transition }> = ({
               pathLength: 1,
             }}
             transition={{
+              //@ts-ignore
               exit: {
                 duration: 0.35,
                 ease: [0.25, 0.1, 0.25, 1],
