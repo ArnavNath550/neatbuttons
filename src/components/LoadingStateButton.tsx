@@ -1,16 +1,25 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-import Center from "./Center";
 
-const LoadingStateButton = () => {
-  const [state, setState] = React.useState("idle");
+type ButtonState = "idle" | "loading" | "success" | "error";
+
+interface Dimensions {
+  scheduleWidth: number;
+  meetingWidth: number;
+  processingWidth: number;
+  resultWidth: number;
+}
+
+const LoadingStateButton: React.FC = () => {
+  const [state, setState] = React.useState<ButtonState>("idle");
   const [shouldFail, setShouldFail] = React.useState(true);
-  const scheduleRef = React.useRef(null);
-  const meetingRef = React.useRef(null);
-  const processingRef = React.useRef(null);
-  const resultRef = React.useRef(null);
-  const [dimensions, setDimensions] = React.useState({
+  const scheduleRef = React.useRef<HTMLSpanElement>(null);
+  const meetingRef = React.useRef<HTMLSpanElement>(null);
+  const processingRef = React.useRef<HTMLSpanElement>(null);
+  const resultRef = React.useRef<HTMLSpanElement>(null);
+
+  const [dimensions, setDimensions] = React.useState<Dimensions>({
     scheduleWidth: 0,
     meetingWidth: 0,
     processingWidth: 0,
@@ -61,7 +70,7 @@ const LoadingStateButton = () => {
     dimensions.scheduleWidth +
     wordGap +
     dimensions.meetingWidth +
-    padding * 3;
+    padding * 2;
   const processingButtonWidth =
     iconWidth +
     gap +
@@ -98,9 +107,9 @@ const LoadingStateButton = () => {
   };
 
   const getBackground = () => {
-    if (state === "error") return "var(--error, #dc2626)";
-    if (state === "success") return "var(--success, #16a34a)";
-    return "var(--primary, #000)";
+    if (state === "error") return "#dc2626";
+    if (state === "success") return "#16a34a";
+    return "var(--primary)";
   };
 
   const getIconPaths = () => {
@@ -146,141 +155,135 @@ const LoadingStateButton = () => {
   const iconPaths = getIconPaths();
 
   return (
-    <Center>
-      <Button
+    <Button
+      layout
+      onClick={handleClick}
+      animate={{
+        width: getButtonWidth() || "auto",
+        backgroundColor: getBackground(),
+      }}
+      transition={{
+        layout: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+        backgroundColor: { duration: 0.3 },
+      }}
+    >
+      <motion.div
         layout
-        onClick={handleClick}
-        animate={{
-          width: getButtonWidth(),
-          background: getBackground(),
-        }}
-        transition={{
-          layout: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-          background: { duration: 0.3 },
-        }}
+        style={{ display: "flex", alignItems: "center", gap: "8px" }}
       >
-        <motion.div
-          layout
-          style={{ display: "flex", alignItems: "center", gap: "8px" }}
-        >
-          <IconContainer>
-            <motion.svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
+        <IconContainer>
+          <motion.svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            animate={{
+              rotate: state === "loading" ? 360 : 0,
+            }}
+            transition={{
+              rotate:
+                state === "loading"
+                  ? { duration: 1, repeat: Infinity, ease: "linear" }
+                  : { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+            }}
+          >
+            <motion.path
+              d={iconPaths.path1}
+              stroke="#fff"
+              strokeWidth="2.5"
+              strokeLinecap="round"
               fill="none"
               animate={{
-                rotate: state === "loading" ? 360 : 0,
+                d: iconPaths.path1,
+                opacity: iconPaths.opacity1,
               }}
               transition={{
-                rotate:
-                  state === "loading"
-                    ? { duration: 1, repeat: Infinity, ease: "linear" }
-                    : { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
               }}
-            >
-              <motion.path
-                d={iconPaths.path1}
-                stroke="#fff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                fill="none"
-                animate={{
-                  d: iconPaths.path1,
-                  opacity: iconPaths.opacity1,
-                }}
-                transition={{
-                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
-                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
-                }}
-                style={{
-                  transformOrigin: "center",
-                  transformBox: "fill-box",
-                }}
-              />
-              <motion.path
-                d={iconPaths.path2}
-                stroke="#fff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                fill="none"
-                animate={{
-                  d: iconPaths.path2,
-                  opacity: iconPaths.opacity2,
-                }}
-                transition={{
-                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
-                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
-                }}
-              />
-              <motion.path
-                d={iconPaths.path3}
-                stroke="#fff"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                fill="none"
-                animate={{
-                  d: iconPaths.path3,
-                  opacity: iconPaths.opacity3,
-                }}
-                transition={{
-                  d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
-                  opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
-                }}
-              />
-            </motion.svg>
-          </IconContainer>
-          <Canvas>
-            <Track
+            />
+            <motion.path
+              d={iconPaths.path2}
+              stroke="#fff"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
               animate={{
-                x: getTrackOffset(),
+                d: iconPaths.path2,
+                opacity: iconPaths.opacity2,
               }}
-              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              transition={{
+                d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
+              }}
+            />
+            <motion.path
+              d={iconPaths.path3}
+              stroke="#fff"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              fill="none"
+              animate={{
+                d: iconPaths.path3,
+                opacity: iconPaths.opacity3,
+              }}
+              transition={{
+                d: { duration: 0.5, ease: [0.34, 1.56, 0.64, 1] },
+                opacity: { duration: 0.3, ease: [0.34, 1.56, 0.64, 1] },
+              }}
+            />
+          </motion.svg>
+        </IconContainer>
+        <Canvas>
+          <Track
+            animate={{
+              x: getTrackOffset(),
+            }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Word
+              ref={scheduleRef}
+              animate={{ opacity: state === "idle" ? 1 : 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
             >
-              <Word
-                ref={scheduleRef}
-                animate={{ opacity: state === "idle" ? 1 : 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Schedule
-              </Word>
-              <Word
-                ref={meetingRef}
-                animate={{
-                  opacity: state === "idle" || state === "loading" ? 1 : 0,
-                }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Meeting
-              </Word>
-              <Word
-                ref={processingRef}
-                animate={{ opacity: state !== "idle" ? 1 : 0 }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                Processing
-              </Word>
-              <Word
-                ref={resultRef}
-                animate={{
-                  opacity: state === "error" || state === "success" ? 1 : 0,
-                }}
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              >
-                {state === "success" ? "Successful" : "Failed"}
-              </Word>
-            </Track>
-          </Canvas>
-        </motion.div>
-      </Button>
-    </Center>
+              Schedule
+            </Word>
+            <Word
+              ref={meetingRef}
+              animate={{
+                opacity: state === "idle" || state === "loading" ? 1 : 0,
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Meeting
+            </Word>
+            <Word
+              ref={processingRef}
+              animate={{ opacity: state !== "idle" ? 1 : 0 }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              Processing
+            </Word>
+            <Word
+              ref={resultRef}
+              animate={{
+                opacity: state === "error" || state === "success" ? 1 : 0,
+              }}
+              transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {state === "success" ? "Successful" : "Failed"}
+            </Word>
+          </Track>
+        </Canvas>
+      </motion.div>
+    </Button>
   );
 };
 
 export default LoadingStateButton;
 
 const Button = styled(motion.button)`
-  background: var(--primary, #000);
+  background: var(--primary);
   height: 48px;
   border-radius: 20px;
   border: none;
@@ -291,9 +294,8 @@ const Button = styled(motion.button)`
   display: flex;
   align-items: center;
   overflow: hidden;
-  transition: background 0.3s ease;
   &:hover {
-    background: var(--primaryHover, #333);
+    filter: brightness(1.1);
   }
 `;
 
@@ -304,6 +306,7 @@ const IconContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 `;
 
 const Canvas = styled(motion.div)`
@@ -318,7 +321,7 @@ const Track = styled(motion.div)`
   align-items: center;
   gap: 6px;
   white-space: nowrap;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-weight: 500;
 `;
 

@@ -1,8 +1,12 @@
 import * as React from "react";
-import Center from "./Center";
 import styled from "styled-components";
-import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft, Circle, Lock, RectangleEllipsis } from "lucide-react";
+import { AnimatePresence, motion, type Transition } from "framer-motion";
+
+interface PinPadProps {
+  springConfig: Transition;
+  isSpinning: boolean;
+  setIsSpinning: (val: boolean) => void;
+}
 
 const PinCodeButton: React.FC = () => {
   const [isPinPad, setIsPinPad] = React.useState(false);
@@ -10,97 +14,104 @@ const PinCodeButton: React.FC = () => {
   const [isSuccess, setIsSuccess] = React.useState(false);
   const fluidWidth = isSpinning || isSuccess ? 80 : isPinPad ? 320 : 150;
   const fluidHeight = isSpinning || isSuccess ? 80 : isPinPad ? 80 : 50;
-  const springConfig = { type: "spring", stiffness: 300, damping: 20 };
+  const springConfig: Transition = {
+    type: "spring",
+    stiffness: 300,
+    damping: 20,
+  };
 
   React.useEffect(() => {
     if (isSpinning) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsSuccess(true);
       }, 2000);
+      return () => clearTimeout(timer);
     }
   }, [isSpinning]);
 
   React.useEffect(() => {
     if (isSuccess) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         setIsSuccess(false);
         setIsPinPad(false);
         setIsSpinning(false);
       }, 1000);
+      return () => clearTimeout(timer);
     }
   }, [isSuccess]);
 
   return (
-    <Center>
-      <Button
-        layout
-        onClick={() => !isPinPad && setIsPinPad(true)}
-        $isPinPad={isPinPad}
-        initial={false}
-        animate={{ width: fluidWidth, height: fluidHeight }}
-        transition={springConfig}
-      >
-        <AnimatePresence initial={false}>
-          {!isPinPad ? (
-            <Content
-              key="initial-content"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
+    <Button
+      layout
+      onClick={() => !isPinPad && setIsPinPad(true)}
+      $isPinPad={isPinPad}
+      initial={false}
+      animate={{ width: fluidWidth, height: fluidHeight }}
+      transition={springConfig}
+    >
+      <AnimatePresence initial={false} mode="wait">
+        {!isPinPad ? (
+          <Content
+            key="initial-content"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ContentText
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
             >
-              <ContentText
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                Enter Pin
-              </ContentText>
-            </Content>
-          ) : isSuccess ? (
-            <SuccessContent key="success-content" />
-          ) : isSpinning ? (
-            <LoadingContent key="loading-content" springConfig={springConfig} />
-          ) : (
-            <PinPadContainer
-              key="pin-pad-content"
-              springConfig={springConfig}
-              isSpinning={isSpinning}
-              setIsSpinning={setIsSpinning}
-            />
-          )}
-        </AnimatePresence>
-      </Button>
-    </Center>
+              Enter Pin
+            </ContentText>
+          </Content>
+        ) : isSuccess ? (
+          <SuccessContent key="success-content" />
+        ) : isSpinning ? (
+          <LoadingContent key="loading-content" springConfig={springConfig} />
+        ) : (
+          <PinPadContainer
+            key="pin-pad-content"
+            springConfig={springConfig}
+            isSpinning={isSpinning}
+            setIsSpinning={setIsSpinning}
+          />
+        )}
+      </AnimatePresence>
+    </Button>
   );
 };
 
-const PinPadContainer: React.FC<{
-  springConfig: any;
-  isSpinning: boolean;
-  setIsSpinning: (val: boolean) => void;
-}> = ({ springConfig, isSpinning, setIsSpinning }) => {
+const PinPadContainer: React.FC<PinPadProps> = ({
+  springConfig,
+  isSpinning,
+  setIsSpinning,
+}) => {
   const [vals, setVals] = React.useState(["", "", "", ""]);
   const [focusedIndex, setFocusedIndex] = React.useState(0);
-  const inputs = React.useRef<HTMLInputElement[]>([]);
+  const inputs = React.useRef<(HTMLInputElement | null)[]>([]);
+
   const handleChange = (v: string, i: number) => {
-    if (v.length > 1) v = v.slice(-1);
+    const digit = v.slice(-1);
     const newVals = [...vals];
-    newVals[i] = v;
+    newVals[i] = digit;
     setVals(newVals);
-    if (v && i < 3) {
+    if (digit && i < 3) {
       inputs.current[i + 1]?.focus();
       setFocusedIndex(i + 1);
-    } else if (v && i === 3) {
+    } else if (digit && i === 3) {
       setIsSpinning(true);
     }
   };
+
   const handleKeyDown = (e: React.KeyboardEvent, i: number) => {
     if (e.key === "Backspace" && !vals[i] && i > 0) {
       inputs.current[i - 1]?.focus();
       setFocusedIndex(i - 1);
     }
   };
+
   return (
     <StyledPinPadContainer
       initial={{ opacity: 1 }}
@@ -116,21 +127,23 @@ const PinPadContainer: React.FC<{
         {vals.map((v, i) => (
           <StyledPinPadInputItem
             key={i}
-            ref={(el) => (inputs.current[i] = el!)}
+            ref={(el) => (inputs.current[i] = el)}
             value={v}
             onFocus={() => setFocusedIndex(i)}
             onChange={(e) => handleChange(e.target.value, i)}
             onKeyDown={(e) => handleKeyDown(e, i)}
-            type="number"
+            type="text"
             inputMode="numeric"
             autoFocus={i === 0}
             initial={{ scale: 0.9, y: -2, opacity: 0, rotateX: -50 }}
             animate={{ scale: 1, y: 0, opacity: 1, rotateX: 0 }}
             exit={{ scale: 0.9, y: 2, opacity: 0 }}
-            transition={{
-              ...springConfig,
-              delay: isSpinning ? 0 : i * 0.04,
-            }}
+            transition={
+              {
+                ...springConfig,
+                delay: isSpinning ? 0 : i * 0.04,
+              } as Transition
+            }
             placeholder="0"
           />
         ))}
@@ -139,13 +152,15 @@ const PinPadContainer: React.FC<{
   );
 };
 
-const LoadingContent: React.FC<{ springConfig: any }> = ({ springConfig }) => {
+const LoadingContent: React.FC<{ springConfig: Transition }> = ({
+  springConfig,
+}) => {
   return (
     <Content
       initial={{ scale: 0.9, y: -2, opacity: 0 }}
       animate={{ scale: 1, y: 0, opacity: 1 }}
       exit={{ opacity: 1, scale: 1 }}
-      transition={{ ...springConfig, delay: 0.05 }}
+      transition={{ ...springConfig, delay: 0.05 } as Transition}
     >
       <SpinnerSvg
         initial={{ rotate: 0 }}
@@ -252,10 +267,7 @@ const SuccessContent: React.FC = () => {
 const Button = styled(motion.button)<{ $isPinPad: boolean }>`
   background: var(--white);
   border-radius: 20px;
-  box-shadow:
-    0 0 #0000,
-    0 0 #0000,
-    0px 1px 2px 1px rgba(0, 0, 0, 0.08);
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.08);
   border: 0px;
   color: var(--dark);
   cursor: ${(props) => (props.$isPinPad ? "default" : "pointer")};
@@ -269,8 +281,7 @@ const Button = styled(motion.button)<{ $isPinPad: boolean }>`
     background: ${(props) =>
       props.$isPinPad ? "var(--white)" : "var(--surface)"};
   }
-  font-family: "Inter";
-  transition: ease 0.1s all;
+  font-family: "Inter", sans-serif;
   &:active {
     scale: ${(props) => (props.$isPinPad ? 1 : 0.95)};
   }
@@ -336,7 +347,6 @@ const FocusRing = styled(motion.div)`
 const StyledPinPadInputItem = styled(motion.input)`
   width: 45px;
   height: 55px;
-  background: var(--white);
   border: 1.5px solid var(--surface);
   background: var(--surface);
   color: var(--dark);
@@ -349,7 +359,7 @@ const StyledPinPadInputItem = styled(motion.input)`
   &:focus {
     border-color: transparent;
   }
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-weight: 550;
 `;
 
