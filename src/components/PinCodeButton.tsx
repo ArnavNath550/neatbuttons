@@ -153,9 +153,7 @@ const PinPadContainer: React.FC<PinPadProps> = ({
   );
 };
 
-const LoadingContent: React.FC<{ springConfig: Transition }> = ({
-  springConfig,
-}) => {
+const LoadingContent: React.FC<{ springConfig: Transition }> = () => {
   return (
     <Content
       initial={{ opacity: 1 }}
