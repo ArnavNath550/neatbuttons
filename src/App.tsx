@@ -5,13 +5,17 @@ import styled from "styled-components";
 import { motion, type Variants } from "framer-motion";
 
 const containerVariants: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { y: 20, opacity: 0 },
   visible: {
+    y: 0,
     opacity: 1,
     transition: {
       duration: 0.5,
       staggerChildren: 0.2,
       delayChildren: 0.1,
+      type: "spring",
+      damping: 14,
+      stiffness: 150,
     },
   },
 };
@@ -20,7 +24,7 @@ const itemVariants: Variants = {
   hidden: {
     y: 20,
     opacity: 0,
-    scale: 0.97,
+    // scale: 0.97,
     // filter: "blur(4px)",
   },
   visible: {
