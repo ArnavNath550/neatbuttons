@@ -22,6 +22,9 @@ const PinCodeButton: React.FC = () => {
 
   React.useEffect(() => {
     if (isSpinning) {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
       const timer = setTimeout(() => {
         setIsSuccess(true);
       }, 2000);
@@ -127,7 +130,6 @@ const PinPadContainer: React.FC<PinPadProps> = ({
         {vals.map((v, i) => (
           <StyledPinPadInputItem
             key={i}
-            //@ts-ignore
             ref={(el) => (inputs.current[i] = el)}
             value={v}
             onFocus={() => setFocusedIndex(i)}
@@ -190,13 +192,14 @@ const LoadingContent: React.FC<{ springConfig: Transition }> = () => {
               strokeDasharray: "0 0",
               pathLength: 1,
             }}
-            transition={{
-              //@ts-ignore
-              exit: {
-                duration: 0.35,
-                ease: [0.25, 0.1, 0.25, 1],
-              },
-            }}
+            transition={
+              {
+                exit: {
+                  duration: 0.35,
+                  ease: [0.25, 0.1, 0.25, 1],
+                },
+              } as any
+            }
           />
         </svg>
       </SpinnerSvg>
@@ -272,6 +275,7 @@ const Button = styled(motion.button)<{ $isPinPad: boolean }>`
   color: var(--dark);
   cursor: ${(props) => (props.$isPinPad ? "default" : "pointer")};
   outline: none;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
