@@ -18,10 +18,10 @@ const containerVariants: Variants = {
 
 const itemVariants: Variants = {
   hidden: {
-    y: 25,
+    y: 20,
     opacity: 0,
-    scale: 0.96,
-    filter: "blur(4px)",
+    scale: 0.97,
+    // filter: "blur(4px)",
   },
   visible: {
     y: 0,
@@ -30,8 +30,8 @@ const itemVariants: Variants = {
     filter: "blur(0px)",
     transition: {
       type: "spring",
-      damping: 20,
-      stiffness: 120,
+      damping: 14,
+      stiffness: 150,
     },
   },
 };
