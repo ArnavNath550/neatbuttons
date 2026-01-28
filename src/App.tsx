@@ -45,7 +45,7 @@ function App() {
         animate="visible"
       >
         <StyledHeaderContent>
-          <StyledLogo src="/public/brandmark.svg" variants={itemVariants} />
+          <StyledLogo src="/brandmark.svg" variants={itemVariants} />
           <StyledHeader>
             <StyledHeaderText variants={itemVariants}>
               Neat Buttons
