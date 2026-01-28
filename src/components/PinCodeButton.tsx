@@ -130,6 +130,7 @@ const PinPadContainer: React.FC<PinPadProps> = ({
         {vals.map((v, i) => (
           <StyledPinPadInputItem
             key={i}
+            //@ts-ignore
             ref={(el) => (inputs.current[i] = el)}
             value={v}
             onFocus={() => setFocusedIndex(i)}
