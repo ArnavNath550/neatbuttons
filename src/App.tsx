@@ -120,7 +120,7 @@ const StyledBodyContent = styled(motion.div)`
 `;
 
 const StyledBodyPreviewItem = styled(motion.div)`
-  background: var(--white);
+  background: var(--overSurface);
   width: 450px;
   height: 450px;
   display: flex;

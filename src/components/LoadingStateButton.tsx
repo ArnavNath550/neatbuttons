@@ -294,6 +294,7 @@ const Button = styled(motion.button)`
   display: flex;
   align-items: center;
   overflow: hidden;
+  box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.08);
   &:hover {
     filter: brightness(1.1);
   }
