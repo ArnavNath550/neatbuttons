@@ -1,14 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
-
-const Center = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #f5f5f5;
-`;
+import Center from "./Center";
 
 const LoadingStateButton = () => {
   const [state, setState] = React.useState("idle");
@@ -68,7 +61,7 @@ const LoadingStateButton = () => {
     dimensions.scheduleWidth +
     wordGap +
     dimensions.meetingWidth +
-    padding * 2;
+    padding * 3;
   const processingButtonWidth =
     iconWidth +
     gap +
@@ -289,7 +282,7 @@ export default LoadingStateButton;
 const Button = styled(motion.button)`
   background: var(--primary, #000);
   height: 48px;
-  border-radius: 999px;
+  border-radius: 20px;
   border: none;
   color: #fff;
   cursor: pointer;
@@ -325,6 +318,8 @@ const Track = styled(motion.div)`
   align-items: center;
   gap: 6px;
   white-space: nowrap;
+  font-family: "Inter";
+  font-weight: 500;
 `;
 
 const Word = styled(motion.span)`
