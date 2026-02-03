@@ -67,6 +67,35 @@ const ALBUMS_DATA: Album[] = [
   },
   {
     albumImage:
+      "https://cdn.martingarrix.com/garrix/Z_jFwOvxEdbNO4_l_weightless3000.jpeg?auto=format,compress&w=1040",
+    artistImage: "",
+    artistName: "Martin Garrix, Arijit Singh",
+    albumName: "Weightless",
+  },
+  {
+    albumImage:
+      "https://upload.wikimedia.org/wikipedia/en/9/9b/Yellow_cover_art.JPG",
+    artistImage: "",
+    artistName: "Coldplay",
+    albumName: "Yellow",
+  },
+
+  {
+    albumImage:
+      "https://i.scdn.co/image/ab67616d00001e0259da65dbf03b88916e2305b5",
+    artistImage: "",
+    artistName: "Kaushiki Chakraborty",
+    albumName: "Kaushiki (Live Concert Series)",
+  },
+  {
+    albumImage:
+      "https://i1.sndcdn.com/artworks-GgKOBI87VuUvWcIv-UjRWuA-t500x500.png",
+    artistImage: "",
+    artistName: "Martin Garrix, Arijit Singh",
+    albumName: "Asen Mi",
+  },
+  {
+    albumImage:
       "https://i.scdn.co/image/ab67616d0000b27366dd2e5208dc4025453947e1",
     artistImage: "",
     artistName: "Arijit Singh",
@@ -78,34 +107,6 @@ const ALBUMS_DATA: Album[] = [
     artistImage: "",
     artistName: "Ambi Subramaniam",
     albumName: "Sound of Carnatic",
-  },
-  {
-    albumImage:
-      "https://i.scdn.co/image/ab67616d00001e0259da65dbf03b88916e2305b5",
-    artistImage: "",
-    artistName: "Kaushiki Chakraborty",
-    albumName: "Kaushiki (Live Concert Series)",
-  },
-  {
-    albumImage:
-      "https://upload.wikimedia.org/wikipedia/en/9/9b/Yellow_cover_art.JPG",
-    artistImage: "",
-    artistName: "Coldplay",
-    albumName: "Yellow",
-  },
-  {
-    albumImage:
-      "https://i1.sndcdn.com/artworks-GgKOBI87VuUvWcIv-UjRWuA-t500x500.png",
-    artistImage: "",
-    artistName: "Martin Garrix, Arijit Singh",
-    albumName: "Asen Mi",
-  },
-  {
-    albumImage:
-      "https://cdn.martingarrix.com/garrix/Z_jFwOvxEdbNO4_l_weightless3000.jpeg?auto=format,compress&w=1040",
-    artistImage: "",
-    artistName: "Martin Garrix, Arijit Singh",
-    albumName: "Weightless",
   },
 ];
 
