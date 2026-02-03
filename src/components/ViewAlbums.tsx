@@ -147,6 +147,7 @@ const ViewAlbums: React.FC = () => {
           setAlbumPreviewIndex(-1);
         }
       }}
+      $isViewing={isViewing}
     >
       <AnimatePresence mode="sync">
         {!isViewing ? (
@@ -312,8 +313,8 @@ const ViewAlbums: React.FC = () => {
 
 export default ViewAlbums;
 
-const Button = styled(motion.button)`
-  background: white;
+const Button = styled(motion.button)<{ $isViewing: boolean }>`
+  background: #fff;
   border-radius: 20px;
   box-shadow: 0px 1px 2px 1px rgba(0, 0, 0, 0.08);
   border: 0px;
@@ -331,6 +332,10 @@ const Button = styled(motion.button)`
   transform: translate3d(0, 0, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  &:active {
+    scale: ${(props) => (props.$isViewing == true ? 0.9 : 1)};
+  }
 `;
 
 const Content = styled(motion.div)`
