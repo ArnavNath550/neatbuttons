@@ -20,3 +20,15 @@ input[type="number"] {
 * {
     -webkit-tap-highlight-color: transparent;
 }
+
+::selection {
+    background: var(--primary);
+    color: #fff;
+    text-shadow: none;
+}
+
+::-moz-selection {
+    background: var(--primary);
+    color: #fff;
+    text-shadow: none;
+}
