@@ -3,6 +3,7 @@ import LoadingStateButton from "./components/LoadingStateButton";
 import PinCodeButton from "./components/PinCodeButton";
 import styled from "styled-components";
 import { motion, type Variants } from "framer-motion";
+import ViewAlbums from "./components/ViewAlbums";
 
 const containerVariants: Variants = {
   hidden: { y: 20, opacity: 0 },
@@ -67,6 +68,9 @@ function App() {
           </StyledBodyPreviewItem>
           <StyledBodyPreviewItem variants={itemVariants}>
             <PinCodeButton />
+          </StyledBodyPreviewItem>
+          <StyledBodyPreviewItem variants={itemVariants}>
+            <ViewAlbums />
           </StyledBodyPreviewItem>
         </StyledBodyContent>
       </motion.div>
