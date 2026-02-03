@@ -52,61 +52,37 @@ interface Album {
 
 const ALBUMS_DATA: Album[] = [
   {
-    albumImage:
-      "https://upload.wikimedia.org/wikipedia/en/4/4f/Aashiqui_2.jpeg",
+    albumImage: "https://arnavshome.vercel.app/images/artwork/artwork-one.jpg",
     artistImage: "",
-    artistName: "Arijit Singh",
-    albumName: "Aashiqui 2",
+    artistName: "Rabindranath Tagore",
+    albumName: "The House Within",
+  },
+  {
+    albumImage: "https://arnavshome.vercel.app/images/artwork/artwork-two.jpg",
+    artistImage: "",
+    artistName: "Raja Ravi Varma",
+    albumName: "Goddess Saraswati",
   },
   {
     albumImage:
-      "https://cdn-images.dzcdn.net/images/cover/32715eb33ab5e20b6c5be10da46a852c/0x1900-000000-80-0-0.jpg",
+      "https://arnavshome.vercel.app/images/artwork/artwork-three.jpg",
     artistImage: "",
-    artistName: "Ed Sheeran, Arijit Singh",
-    albumName: "Saphire",
+    artistName: "Amrita Sher-Gil",
+    albumName: "Lady in Green Sari",
   },
   {
     albumImage:
-      "https://cdn.martingarrix.com/garrix/Z_jFwOvxEdbNO4_l_weightless3000.jpeg?auto=format,compress&w=1040",
+      "https://www.artzolo.com/cdn/shop/articles/kadambari-artzolo-com.webp?v=1769332392&width=550",
     artistImage: "",
-    artistName: "Martin Garrix, Arijit Singh",
-    albumName: "Weightless",
-  },
-  {
-    albumImage:
-      "https://upload.wikimedia.org/wikipedia/en/9/9b/Yellow_cover_art.JPG",
-    artistImage: "",
-    artistName: "Coldplay",
-    albumName: "Yellow",
+    artistName: "Raja Ravi Varma",
+    albumName: "Lady Playing the Veena",
   },
 
   {
-    albumImage:
-      "https://i.scdn.co/image/ab67616d00001e0259da65dbf03b88916e2305b5",
+    albumImage: "https://arnavshome.vercel.app/images/artwork/artwork-five.jpg",
     artistImage: "",
-    artistName: "Kaushiki Chakraborty",
-    albumName: "Kaushiki (Live Concert Series)",
-  },
-  {
-    albumImage:
-      "https://i1.sndcdn.com/artworks-GgKOBI87VuUvWcIv-UjRWuA-t500x500.png",
-    artistImage: "",
-    artistName: "Martin Garrix, Arijit Singh",
-    albumName: "Asen Mi",
-  },
-  {
-    albumImage:
-      "https://i.scdn.co/image/ab67616d0000b27366dd2e5208dc4025453947e1",
-    artistImage: "",
-    artistName: "Arijit Singh",
-    albumName: "Swar Sadhna",
-  },
-  {
-    albumImage:
-      "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/bf/dc/f9/bfdcf90b-30fb-bd7a-a5f9-01e9ee8d7ad1/cover.jpg/600x600bf-60.jpg",
-    artistImage: "",
-    artistName: "Ambi Subramaniam",
-    albumName: "Sound of Carnatic",
+    artistName: "Gaganedranath Tagore",
+    albumName: "Pratima Visarjan",
   },
 ];
 
@@ -171,7 +147,7 @@ const ViewAlbums: React.FC = () => {
                 />
               ))}
             </SmallAlbumsPreview>
-            <ContentText>View All Albums</ContentText>
+            <ContentText>View All Artworks</ContentText>
           </Content>
         ) : (
           <>
