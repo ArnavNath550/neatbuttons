@@ -332,9 +332,9 @@ const Button = styled(motion.button)<{ $isViewing: boolean }>`
   transform: translate3d(0, 0, 0);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
+  transition: ease 0.2s all;
   &:active {
-    scale: ${(props) => (props.$isViewing == false ? 0.9 : 1)};
+    scale: ${(props) => (props.$isViewing == false ? 0.97 : 1)};
   }
 `;
 
