@@ -334,7 +334,7 @@ const Button = styled(motion.button)<{ $isViewing: boolean }>`
   -moz-osx-font-smoothing: grayscale;
 
   &:active {
-    scale: ${(props) => (props.$isViewing == true ? 0.9 : 1)};
+    scale: ${(props) => (props.$isViewing == false ? 0.9 : 1)};
   }
 `;
 
