@@ -72,6 +72,9 @@ function App() {
           <StyledBodyPreviewItem variants={itemVariants}>
             <ViewAlbums />
           </StyledBodyPreviewItem>
+          <StyledBodyPreviewItem
+            variants={itemVariants}
+          ></StyledBodyPreviewItem>
         </StyledBodyContent>
       </motion.div>
     </StyledContent>
