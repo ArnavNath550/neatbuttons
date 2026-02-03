@@ -60,10 +60,10 @@ const ALBUMS_DATA: Album[] = [
   },
   {
     albumImage:
-      "https://i.scdn.co/image/ab67616d0000b27309eb26d1d49d2b3156ce0a1a",
+      "https://cdn-images.dzcdn.net/images/cover/32715eb33ab5e20b6c5be10da46a852c/0x1900-000000-80-0-0.jpg",
     artistImage: "",
-    artistName: "Jung Jae Il",
-    albumName: "Parasite",
+    artistName: "Ed Sheeran, Arijit Singh",
+    albumName: "Saphire",
   },
   {
     albumImage:
