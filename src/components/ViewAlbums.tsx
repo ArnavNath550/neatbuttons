@@ -74,10 +74,10 @@ const ALBUMS_DATA: Album[] = [
   },
   {
     albumImage:
-      "https://i.scdn.co/image/c421a10346d8a1308cdd95c7e5191af56eb48db8",
+      "https://is1-ssl.mzstatic.com/image/thumb/Music124/v4/bf/dc/f9/bfdcf90b-30fb-bd7a-a5f9-01e9ee8d7ad1/cover.jpg/600x600bf-60.jpg",
     artistImage: "",
-    artistName: "Kaushiki Chakraborty",
-    albumName: "Pure",
+    artistName: "Ambi Subramaniam",
+    albumName: "Sound of Carnatic",
   },
   {
     albumImage:
