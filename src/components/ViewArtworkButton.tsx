@@ -65,13 +65,6 @@ const ALBUMS_DATA: Album[] = [
   },
   {
     albumImage:
-      "https://arnavshome.vercel.app/images/artwork/artwork-three.jpg",
-    artistImage: "",
-    artistName: "Amrita Sher-Gil",
-    albumName: "Lady in Green Sari",
-  },
-  {
-    albumImage:
       "https://www.artzolo.com/cdn/shop/articles/kadambari-artzolo-com.webp?v=1769332392&width=550",
     artistImage: "",
     artistName: "Raja Ravi Varma",
@@ -86,7 +79,7 @@ const ALBUMS_DATA: Album[] = [
   },
 ];
 
-const ViewAlbums: React.FC = () => {
+const ViewArtworkButton: React.FC = () => {
   const [isViewing, setIsViewing] = React.useState(false);
   const [albumPreviewIndex, setAlbumPreviewIndex] = React.useState(-1);
   const scrollContainerRef = React.useRef<HTMLDivElement>(null);
@@ -288,7 +281,7 @@ const ViewAlbums: React.FC = () => {
   );
 };
 
-export default ViewAlbums;
+export default ViewArtworkButton;
 
 const Button = styled(motion.button)<{ $isViewing: boolean }>`
   background: #fff;
