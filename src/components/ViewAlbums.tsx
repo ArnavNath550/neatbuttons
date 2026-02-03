@@ -88,24 +88,24 @@ const ALBUMS_DATA: Album[] = [
   },
   {
     albumImage:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnwC0puuQWsx5RfwCd8XW3xfIREW9Ld-Y6UA&s",
+      "https://upload.wikimedia.org/wikipedia/en/9/9b/Yellow_cover_art.JPG",
     artistImage: "",
-    artistName: "Rahul Deshpande",
-    albumName: "Me Vasantrao",
+    artistName: "Coldplay",
+    albumName: "Yellow",
   },
   {
     albumImage:
-      "https://c.saavncdn.com/208/Asen-Mi-From-Uttar-Marathi-2025-20251207155232-500x500.jpg",
+      "https://i1.sndcdn.com/artworks-GgKOBI87VuUvWcIv-UjRWuA-t500x500.png",
     artistImage: "",
-    artistName: "Ronkini Gupta",
+    artistName: "Martin Garrix, Arijit Singh",
     albumName: "Asen Mi",
   },
   {
     albumImage:
-      "https://cdn-images.dzcdn.net/images/cover/618ad7cb9c3e84e58381ef97e8b8953a/0x1900-000000-80-0-0.jpg",
+      "https://cdn.martingarrix.com/garrix/Z_jFwOvxEdbNO4_l_weightless3000.jpeg?auto=format,compress&w=1040",
     artistImage: "",
-    artistName: "Arijit Singh, Sulim Sulaiman",
-    albumName: "Sukoon 2.0",
+    artistName: "Martin Garrix, Arijit Singh",
+    albumName: "Weightless",
   },
 ];
 
